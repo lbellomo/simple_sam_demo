@@ -67,7 +67,7 @@ def lambda_handler(event, context):
     try:
         response = table.put_item(item)
         logger.info(f"response: {response}")
-    except:
+    except Exception:
         return create_output(500, "Internal error: can't insert item in table.")
 
     return create_output(200, "Item created.")
