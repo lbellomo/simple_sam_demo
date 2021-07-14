@@ -16,6 +16,7 @@ table = dynamodb.Table("iris_table")
 
 
 def create_output(status_code: int, message: str) -> dict:
+    logger.info(message)
     return {
         "statusCode": status_code,
         "body": json.dumps(
@@ -27,7 +28,7 @@ def create_output(status_code: int, message: str) -> dict:
 
 
 def create_hash(item: dict) -> str:
-    join_values = "".join(value for value in item.values())
+    join_values = "".join(str(value) for value in item.values())
     return hashlib.md5(join_values.encode("utf-8")).hexdigest()
 
 
@@ -58,16 +59,17 @@ def lambda_handler(event, context):
         if key not in item:
             return create_output(400, f"Invalid body: missing key {key} in body.")
         try:
-            item[key] = float(item[key])
+            float(item[key])
         except ValueError:
             return create_output(400, f"Invalid body: can't parse {key} to float.")
 
     item["id"] = create_hash(item)
 
     try:
-        response = table.put_item(item)
+        response = table.put_item(Item=item)
         logger.info(f"response: {response}")
-    except Exception:
+    except Exception as e:
+        logger.error(f"Error, can't insert item: {e}")
         return create_output(500, "Internal error: can't insert item in table.")
 
     return create_output(200, "Item created.")

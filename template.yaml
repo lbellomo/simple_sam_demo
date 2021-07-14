@@ -23,6 +23,9 @@ Resources:
           Properties:
             Path: /v0/iris
             Method: POST
+      Policies:
+        DynamoDBCrudPolicy:
+          TableName: iris_table
 
   ReadIrisFunction:
     Type: AWS::Serverless::Function
