@@ -1,6 +1,9 @@
 # simple_sam_demo
 
-Intro: TODO
+This is a simple project that tries to illustrate how to use python and AWS SAM.
+
+![arquitecture](https://github.com/lbellomo/simple_sam_demo/blob/development/diagram/arquitecture.png?raw=true)
+
 
 ## Creating the environment
 
@@ -47,3 +50,10 @@ There is a github action that runs them in the repo.
 
 ## Build diagram
 
+The diagram is made with [diagrams](https://github.com/mingrammer/diagrams). To create it: 
+
+``` bash
+pip install diagrams
+cd diagram
+python diagram.py
+```
