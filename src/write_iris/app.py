@@ -66,8 +66,7 @@ def lambda_handler(event, context):
     item["id"] = create_hash(item)
 
     try:
-        response = table.put_item(Item=item)
-        logger.info(f"response: {response}")
+        table.put_item(Item=item)
     except Exception as e:
         logger.error(f"Error, can't insert item: {e}")
         return create_output(500, "Internal error: can't insert item in table.")

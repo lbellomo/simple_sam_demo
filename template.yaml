@@ -38,10 +38,34 @@ Resources:
             Path: /v0/iris/{id}
             Method: GET
 
+  ProcessIrisDynamoDBStream:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/process_iris_stream/
+      Policies: AWSLambdaDynamoDBExecutionRole
+      Events:
+        Stream:
+          Type: DynamoDB
+          Properties:
+            Stream: !GetAtt IrisTable.StreamArn
+            BatchSize: 5
+            StartingPosition: TRIM_HORIZON
+
   IrisTable:
-    Type: AWS::Serverless::SimpleTable
+    Type: AWS::DynamoDB::Table
     Properties:
       TableName: iris_table
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
 
 Outputs:
   HelloWorldApi:
