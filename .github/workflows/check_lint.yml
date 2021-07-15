@@ -2,7 +2,7 @@ name: Python SAM application linters
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, development ]
   pull_request:
     branches: [ master, development ]
 
@@ -35,7 +35,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install cfn-lint
     - name: Run cfn-lint
-      run: cfn-lint -i W3005 -- template.yaml
+      run: cfn-lint  template.yaml
 
   black:
     runs-on: ubuntu-latest
