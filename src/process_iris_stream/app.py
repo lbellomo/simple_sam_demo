@@ -1,10 +1,10 @@
-import json
 import logging
 from typing import List
 
 import boto3
 
 from dummy_model import Model
+from utils import create_output
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -14,18 +14,6 @@ iris_keys = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
 
 dynamodb = boto3.resource("dynamodb", region_name="sa-east-1")
 table = dynamodb.Table("iris_table")
-
-
-def create_output(status_code: int, message: str) -> dict:
-    logger.info(message)
-    return {
-        "statusCode": status_code,
-        "body": json.dumps(
-            {
-                "message": message,
-            }
-        ),
-    }
 
 
 def parse_records(records: List[dict]) -> List[dict]:

@@ -26,6 +26,8 @@ Resources:
       Policies:
         DynamoDBCrudPolicy:
           TableName: iris_table
+      Layers:
+        - !Ref InternalLayer
 
   ReadIrisFunction:
     Type: AWS::Serverless::Function
@@ -37,6 +39,8 @@ Resources:
           Properties:
             Path: /v0/iris/{id}
             Method: GET
+      Layers:
+        - !Ref InternalLayer
 
   ProcessIrisDynamoDBStream:
     Type: AWS::Serverless::Function
@@ -54,7 +58,7 @@ Resources:
             StartingPosition: TRIM_HORIZON
       Layers:
         - !Ref SklearnLayer
-
+        - !Ref InternalLayer
 
   IrisTable:
     Type: AWS::DynamoDB::Table
@@ -71,6 +75,15 @@ Resources:
         WriteCapacityUnits: 5
       StreamSpecification:
         StreamViewType: NEW_IMAGE
+
+  InternalLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: ./internal_layer
+      CompatibleRuntimes:
+        - python3.8
+    Metadata:
+      BuildMethod: makefile
 
   SklearnLayer:
     Type: AWS::Serverless::LayerVersion
