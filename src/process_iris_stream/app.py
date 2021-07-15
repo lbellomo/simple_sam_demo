@@ -37,6 +37,10 @@ def parse_records(records: List[dict]) -> List[dict]:
 
         new_image = record["dynamodb"]["NewImage"]
 
+        if "pred_target" in new_image:
+            # skip item
+            continue
+
         item = dict()
         for k, dict_v in new_image.items():
 
@@ -86,14 +90,5 @@ def lambda_handler(event, context):
             )
         except Exception as e:
             logger.error(f"Error, can't update item: {e}")
-            return create_output(500, "Internal error: can't update item in table.")
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps(
-            {
-                "message": "hello world",
-                # "location": ip.text.replace("\n", "")
-            }
-        ),
-    }
+    return create_output(200, "Processing finish.")
