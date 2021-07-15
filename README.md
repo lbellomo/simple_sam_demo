@@ -2,7 +2,7 @@
 
 This is a simple project that tries to illustrate how to use python and AWS SAM.
 
-![arquitecture](https://github.com/lbellomo/simple_sam_demo/blob/development/diagram/arquitecture.png?raw=true)
+![arquitecture](https://github.com/lbellomo/simple_sam_demo/blob/master/diagram/arquitecture.png?raw=true)
 
 
 ## Creating the environment
@@ -42,11 +42,32 @@ There is a github action that runs them in the repo.
 
 ## Build and Deploy with SAM
 
+To do the build:
+
+``` bash
+sam build -cp
+```
+
+The option `c` is to use the cache and `p` is to do it in parallel. If you run into a problem and you have docker installed, you can use `u` to make the build inside a container (this always works but is slower).
+
+To do the deploy:
+
+``` bash
+sam deploy
+```
+
+This reads the `samconfig.toml` and does the deploy.
+
+The first time you need to run it with `sam deploy --guided`, this creates the `samconfig.toml` and creates the bucket where you upload the artifacts.
 
 
 ## Notes
 
+- For this workflow I thought that the data of the table will be wanted even if they do not have the prediction of the class. If this is not the case it is better not to save them in the table from the write lambda, but to put them in a stream queue directly. In this way, the first writing to the table is not necessary.
 
+- The model is totally dummy. For anything more serious it will be better to save the model in S3 and read it from the lambda.
+
+- Lambdas are very easy to scale and cheap, but they have limitations such as the maximum amount of ram and the maximum amount of time they can run. Nor can you choose to choose the hardware to run on. If you need more power (have faster responses or run more complex models) you can use AWS Fragata, something similar to lambda but with containers. To understand how lambdas work at a low level, look at this article: [Behind the scenes, AWS Lambda](https://www.bschaatsbergen.com/behind-the-scenes-lambda).
 
 ## Build diagram
 
