@@ -50,6 +50,9 @@ Resources:
             Stream: !GetAtt IrisTable.StreamArn
             BatchSize: 5
             StartingPosition: TRIM_HORIZON
+      Layers:
+        - !Ref SklearnLayer
+
 
   IrisTable:
     Type: AWS::DynamoDB::Table
@@ -66,6 +69,17 @@ Resources:
         WriteCapacityUnits: 5
       StreamSpecification:
         StreamViewType: NEW_IMAGE
+
+  SklearnLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: SklearnLayer
+      ContentUri: ./sklearn_layer
+      CompatibleRuntimes:
+        - python3.8
+    Metadata:
+      BuildMethod: python3.8
+
 
 Outputs:
   HelloWorldApi:

@@ -1,8 +1,12 @@
 import json
 import logging
 
+import sklearn
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
+
+logger.info(f"sklearn version: {sklearn.__version__}")
 
 
 def lambda_handler(event, context):
