@@ -42,7 +42,9 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: src/process_iris_stream/
-      Policies: AWSLambdaDynamoDBExecutionRole
+      Policies:
+        DynamoDBCrudPolicy:
+          TableName: iris_table
       Events:
         Stream:
           Type: DynamoDB
