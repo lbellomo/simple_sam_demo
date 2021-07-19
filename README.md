@@ -2,6 +2,8 @@
 
 This is a simple project that tries to illustrate how to use python and AWS SAM.
 
+This creates an endpoint in an api, two lambdas, and a dynamo table. One lambda adds the item to the table and the other adds a field to the table item asynchronously.
+
 ![arquitecture](https://github.com/lbellomo/simple_sam_demo/blob/master/diagram/arquitecture.png?raw=true)
 
 

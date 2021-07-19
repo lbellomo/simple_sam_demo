@@ -29,19 +29,6 @@ Resources:
       Layers:
         - !Ref InternalLayer
 
-  ReadIrisFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: src/read_iris/
-      Events:
-        WriteIris:
-          Type: Api
-          Properties:
-            Path: /v0/iris/{id}
-            Method: GET
-      Layers:
-        - !Ref InternalLayer
-
   ProcessIrisDynamoDBStream:
     Type: AWS::Serverless::Function
     Properties:
