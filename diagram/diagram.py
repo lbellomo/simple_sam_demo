@@ -12,9 +12,5 @@ with Diagram("Arquitecture"):
 
     api_endpoint_write = APIGatewayEndpoint("Endpoint write")
 
-    (
-        api_endpoint_write
-        >> lambda_write
-        >> dynamo_table
-    )
+    (api_endpoint_write >> lambda_write >> dynamo_table)
     dynamo_table >> lambda_process >> dynamo_table
